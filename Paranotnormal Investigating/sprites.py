@@ -317,8 +317,11 @@ class Block(pygame.sprite.Sprite):
         self.width = tilesize
         self.height = tilesize
 
-        self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(blue)
+        #self.image = pygame.Surface([self.width, self.height])
+        #self.image.fill(blue)
+
+        self.image = self.game.tile_spritesheet.get_sprite(0, 0, self.width, self.height)
+        #self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -331,7 +334,7 @@ class Block(pygame.sprite.Sprite):
 
 class Button:
     def __init__(self, x, y, width, height, fg, bg, content, fontsize):
-        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', fontsize)
+        self.font = pygame.font.Font('.\img\pixel_font.ttf', fontsize)
         self.content = content
 
         self.x = x
@@ -378,7 +381,7 @@ class mainDoor(pygame.sprite.Sprite):
         self.height =  tilesize
 
     
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
+        self.image = pygame.image.load('./img/boy01.png')
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
@@ -521,7 +524,7 @@ class Cat(pygame.sprite.Sprite):
         self.height =  tilesize
 
     
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
+        self.image = pygame.image.load('./img/boy01.png')
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 

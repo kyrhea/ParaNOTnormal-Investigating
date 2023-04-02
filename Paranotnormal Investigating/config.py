@@ -1,6 +1,6 @@
 win_width = 720
 win_height = 480
-tilesize = 32
+tilesize = 64
 fps = 60
 
 player_layer = 4
