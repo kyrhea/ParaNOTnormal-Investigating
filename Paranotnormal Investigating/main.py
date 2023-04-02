@@ -21,6 +21,8 @@ class Game:
         self.intro_background = pygame.image.load('./img/start_para.png')
         self.intro_background = pygame.transform.scale(self.intro_background, (win_width, win_height))
 
+        self.character_spritesheet = Spritesheet('./img/boy_ss.png')
+
 
     def fade(self, width, height): 
         fade = pygame.Surface((width, height))
