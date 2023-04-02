@@ -15,10 +15,10 @@ class Game:
 
         self.fullscreen = False
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font('slkscr.ttf', 32)
+        self.font = pygame.font.Font('./img/pixel_font.ttf', 32)
         self.running = True
 
-        self.intro_background = pygame.image.load('./img/phas.png')
+        self.intro_background = pygame.image.load('./img/start_para.png')
         self.intro_background = pygame.transform.scale(self.intro_background, (win_width, win_height))
 
 
@@ -171,10 +171,10 @@ class Game:
     def startScreen(self):
         intro = True
 
-        title = self.font.render('ParaNOTnormal Investigating', True, white)
-        title_rect = title.get_rect(x=10,y=10)
+        #title = self.font.render('ParaNOTnormal Investigating', True, white)
+        #title_rect = title.get_rect(x=10,y=10)
 
-        play_button = Button(10, 50, 100, 50, white, black, 'PLAY', 32)
+        play_button = Button(280, 310, 150, 80, white, dark_blue, 'PLAY', 50)
 
         while intro:
             for event in pygame.event.get():
@@ -190,7 +190,7 @@ class Game:
                 self.state = 'main'
 
             self.screen.blit(self.intro_background, (0,0))
-            self.screen.blit(title, title_rect)
+            #self.screen.blit(title, title_rect)
             self.screen.blit(play_button.image, play_button.rect)
             self.clock.tick(fps)
             pygame.display.update()

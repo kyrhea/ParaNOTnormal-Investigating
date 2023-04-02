@@ -21,8 +21,8 @@ class Player(pygame.sprite.Sprite):
         self.y_change = 0
         self.facing = 'down'
 
-        self.image = pygame.Surface([self.width, self.height]) #sprite size/image
-        self.image.fill(red)
+        self.image = pygame.image.load('./img/boy01.png')
+        self.image = pygame.transform.scale(self.image, (tilesize, tilesize)) #sprite size/image
 
         self.rect = self.image.get_rect() #hitbox the same size as sprite image
         self.rect.x = self.x
@@ -168,7 +168,7 @@ class Block(pygame.sprite.Sprite):
 
 class Button:
     def __init__(self, x, y, width, height, fg, bg, content, fontsize):
-        self.font = pygame.font.Font('slkscr.ttf', fontsize)
+        self.font = pygame.font.Font('./img/pixel_font.ttf', fontsize)
         self.content = content
 
         self.x = x

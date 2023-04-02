@@ -1,6 +1,6 @@
-win_width = 1200
-win_height = 700
-tilesize = 32
+win_width = 720
+win_height = 480
+tilesize = 64
 fps = 60
 
 player_layer = 4
@@ -13,6 +13,7 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 blue = (0, 0, 255)
 green = (0, 255, 0)
+dark_blue = (2, 7, 18)
 
 
 player_speed = 3
