@@ -6,6 +6,7 @@ from config import *
 from pygame.locals import *
 
 
+
 class Game:
     def __init__(self):
         pygame.init()
@@ -15,22 +16,14 @@ class Game:
 
         self.fullscreen = False
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font('./img/pixel_font.ttf', 32)
+        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', 32)
         self.running = True
 
-        self.intro_background = pygame.image.load('./img/start_para.png')
+        self.intro_background = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\start_para.png')
         self.intro_background = pygame.transform.scale(self.intro_background, (win_width, win_height))
 
+       
 
-    def fade(self, width, height): 
-        fade = pygame.Surface((width, height))
-        fade.fill((0,0,0))
-        for alpha in range(0, 300):
-            fade.set_alpha(alpha)
-            self.draw()
-            self.screen.blit(fade, (0,0))
-            pygame.display.update()
-            pygame.time.delay(5)
 
 
 
@@ -46,8 +39,8 @@ class Game:
                     Block(self, j, i)
                 if column == "P":
                     self.player = Player(self, j, i)
-                if column == "D":
-                    Door(self, j, i)
+                if column == "M":
+                    mainDoor(self, j, i)
                 if column == "C":
                     Cat(self,j,i)
                     
@@ -78,6 +71,9 @@ class Game:
         self.door = pygame.sprite.LayeredUpdates()
         self.mainDoor = pygame.sprite.LayeredUpdates()
         self.cat = pygame.sprite.LayeredUpdates()
+        self.key = pygame.sprite.LayeredUpdates()
+
+
 
         self.createTilemap()
 
@@ -93,6 +89,9 @@ class Game:
         self.ghost = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
         self.door = pygame.sprite.LayeredUpdates()
+        self.mainDoor = pygame.sprite.LayeredUpdates()
+        self.cat = pygame.sprite.LayeredUpdates()
+        self.key = pygame.sprite.LayeredUpdates()
 
         self.createTilemap2()
 
@@ -129,38 +128,45 @@ class Game:
 
     def main(self):
         #game loop
-        while self.playing:
-            self.events()
-            self.update()
-            self.draw()
-##            mouse_pos = pygame.mouse.get_pos()
-##            mouse_pressed = pygame.mouse.get_pressed()
-##            if mainDoor.is_pressed(mouse_pos, mouse_pressed):
-##                self.fade(1000,800)
-##                self.state = 'main2'
-##            for event in pygame.event.get():
-##                if event.type == pygame.MOUSEBUTTONDOWN and pygame.sprite.spritecollide(self.player, self.mainDoor, False):
-##                    self.fade()
-##                    self.state = 'main2'
-      
-
-
-            
-                   
-            pygame.display.update()
-            
-        self.running = False
-
-    def gameOver(self):
-        pass
-    
-    def main2(self):
-        newGame2(self)
         
         while self.playing:
             self.events()
             self.update()
             self.draw()
+            
+
+            if Cat.is_clicked == True:
+                self.cat = Cat.message1(self)
+            if mainDoor.is_clicked == True:
+                self.state = 'main2'
+                
+            #     for event in pygame.event.get():
+            #         if event.type == pygame.MOUSEBUTTONDOWN:
+                        
+                
+            #     #self.mdoor = mainDoor.fade(self)
+
+            #             self.state = 'main2'
+            pygame.display.update()
+        
+               
+            
+            
+        
+
+    def gameOver(self):
+        pass
+    
+    def main2(self):
+        pygame.display.update()
+
+        self.newGame2()
+        
+        while self.playing:
+            self.events()
+            self.update()
+            self.draw()
+           
             
             
         self.running = False
@@ -186,6 +192,7 @@ class Game:
             mouse_pressed = pygame.mouse.get_pressed()
 
             if play_button.is_pressed(mouse_pos, mouse_pressed):
+                
                 intro = False
                 self.state = 'main'
 
