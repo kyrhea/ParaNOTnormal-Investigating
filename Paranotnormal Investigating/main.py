@@ -22,8 +22,16 @@ class Game:
         self.intro_background = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\start_para.png')
         self.intro_background = pygame.transform.scale(self.intro_background, (win_width, win_height))
 
-       
 
+    def fade(self, width, height): 
+        fade = pygame.Surface((width, height))
+        fade.fill((0,0,0))
+        for alpha in range(0, 300):
+            fade.set_alpha(alpha)
+            self.draw()
+            self.screen.blit(fade, (0,0))
+            pygame.display.update()
+            pygame.time.delay(5)
 
 
 
