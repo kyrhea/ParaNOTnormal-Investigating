@@ -381,8 +381,8 @@ class mainDoor(pygame.sprite.Sprite):
         self.height =  tilesize
 
     
-        self.image = pygame.image.load('./img/boy01.png')
-        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+        self.image = self.game.tile_spritesheet.get_sprite(128, 64, self.width, (self.height*2))
+        #self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
         self.rect = self.image.get_rect()
@@ -395,6 +395,9 @@ class mainDoor(pygame.sprite.Sprite):
             if pygame.mouse.get_pressed()[0] and not self.clicked:
                
                 self.clicked = True
+                
+                door_noise = pygame.mixer.Sound('.\img\door_sound.wav')
+                pygame.mixer.Sound.play(door_noise)
                 
                 self.fade(1000, 800)
                 
@@ -560,7 +563,7 @@ class Cat(pygame.sprite.Sprite):
         #pygame.draw.rect(self.screen, 'dark gray', [0, 300, 800,200])
      
         
-        self.font = pygame.font.Font('freesansbold.ttf', 24)
+        self.font = pygame.font.Font('.\img\pixel_font.ttf', 24)
         self.snip = self.font.render('', True, 'white')
         self.counter = 0
         self.speed = 3
