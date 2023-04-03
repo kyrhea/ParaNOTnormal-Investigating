@@ -129,6 +129,12 @@ class Player(pygame.sprite.Sprite):
         self.x_change = 0
         self.y_change = 0
 
+
+
+
+
+
+
     def movement(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
@@ -357,12 +363,12 @@ class Player(pygame.sprite.Sprite):
 
 
 
-#NOT FINISHED
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
 
         self.game = game
-        self._layer = player_layer
+        self._layer = enemy_layer
         self.groups = self.game.all_sprites, self.game.ghost
         pygame.sprite.Sprite.__init__(self, self.groups)
 
@@ -422,6 +428,81 @@ class Block(pygame.sprite.Sprite):
         self.height = tilesize
 
         self.image = self.game.tile_spritesheet.get_sprite(0, 0, self.width, self.height)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+class Block2(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = block_layer
+        self.groups = self.game.all_sprites, self.game.blocks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height = tilesize
+
+        self.image = self.game.tile_spritesheet.get_sprite(64, 64, self.width, self.height)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+class Ground1(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = ground_layer
+        self.groups = self.game.all_sprites
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height = tilesize
+
+        self.image = self.game.tile_spritesheet.get_sprite(192, 64, self.width, self.height)
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+class Ground2(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = ground_layer
+        self.groups = self.game.all_sprites
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height = tilesize
+
+        self.image = self.game.tile_spritesheet.get_sprite(256, 64, self.width, self.height)
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+
+class Block3(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = block_layer
+        self.groups = self.game.all_sprites, self.game.blocks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height = tilesize
+
+        self.image = self.game.tile_spritesheet.get_sprite(0, 64, self.width, self.height)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -940,6 +1021,13 @@ class woman(pygame.sprite.Sprite):
                     
             pygame.display.flip()
 
+class Camera:
+    def __init__(self, width, height):
+        self.camera = pygame.Rect(0, 0, width, height)
+        self.width = width
+        self.height = height
+    def apply(self, entity):
+        return entity.rect.move(self.camera.topleft)
 
 
         

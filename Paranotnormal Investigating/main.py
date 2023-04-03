@@ -32,16 +32,25 @@ class Game:
         self.cat_spritesheet = Spritesheet('./img/cat_ss.png')
 
         self.cut_scene_manager = CutSceneManager(self.screen)
-
-
+        self.fog = pygame.Surface((2000, 2000))
+        self.fog.fill(NIGHT_COLOR)
+        self.light_mask = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\light_350_med.png').convert_alpha()
+        self.light_mask = pygame.transform.scale(self.light_mask, LIGHT_RADIUS)
+        self.light_rect = self.light_mask.get_rect()
+        self.camera = Camera(win_width, win_height)
 
 
     def createTilemap(self):
         #loop through tilemap
         #enumerate gets position and content of item
+        
         for i, row in enumerate(tilemap):
             for j, column in enumerate(row):
+<<<<<<< HEAD
                 Ground(self, j, i)
+=======
+                Ground2(self, j, i)
+>>>>>>> a6738b0baf200b1dbb94b976fa0f32c2d606e6ba
                 if column == "B":
                     Block(self, j, i)
                 if column == "P":
@@ -59,7 +68,11 @@ class Game:
         #enumerate gets position and content of item
         for i, row in enumerate(tilemap2):
             for j, column in enumerate(row):
+<<<<<<< HEAD
                 Ground(self, j, i)
+=======
+                Ground1(self, j, i)
+>>>>>>> a6738b0baf200b1dbb94b976fa0f32c2d606e6ba
                 if column == "B":
                     Block(self, j, i)
                 if column == "P":
@@ -72,6 +85,10 @@ class Game:
                     k(self, j, i)
                 if column == 'E':
                     Enemy(self, j, i)
+                if column == 'S':
+                    Block2(self, j, i)
+                if column == 'T':
+                    Block3(self,j,i)
             
     
 
@@ -139,7 +156,16 @@ class Game:
     def update(self):
         #game loop updates
         self.all_sprites.update()
+        
         self.cut_scene_manager.update()
+
+    def render_fog(self):
+        self.fog.fill(NIGHT_COLOR)
+        self.light_rect.center = self.camera.apply(self.player).center
+        self.fog.blit(self.light_mask, self.light_rect)
+        self.screen.blit(self.fog, (0,0), special_flags= pygame.BLEND_MULT)
+
+
         
     
     def draw(self):
@@ -147,6 +173,7 @@ class Game:
         self.all_sprites.draw(self.screen)
         self.clock.tick(fps)
         self.cut_scene_manager.draw()
+        #self.render_fog()
         pygame.display.update()
         
                 
@@ -155,20 +182,56 @@ class Game:
     def main(self):
         #game loop
         
+        
         while self.playing:
             self.events()
             self.update()
             self.draw()
+<<<<<<< HEAD
            
+=======
+
+            
+
+
+>>>>>>> a6738b0baf200b1dbb94b976fa0f32c2d606e6ba
             pygame.display.update()
         
-               
+    def redraw(self):
+        self.screen.fill(black)
+        self.all_sprites.draw(self.screen)
+        self.clock.tick(fps)
+        self.cut_scene_manager.draw()
+        self.render_fog()
+
+        pygame.display.update()        
             
             
         
 
     def gameOver(self):
-        pass
+        text = self.font.render('Game Over', True, white)
+        text_rect = text.get_rect(center=(win_width/2, win_height/2))
+
+        restart_button = Button(10, win_height - 60, 120, 50, white, black, 'Restart', 32)
+
+        for sprite in self.all_sprites:
+            sprite.kill()
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running  = False
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_pressed = pygame.mouse.get_pressed()
+
+            if restart_button.is_pressed(mouse_pos, mouse_pressed):
+                self.new()
+                self.main()
+            self.screen.blit(self.intro_background, (0,0))
+            self.screen.blit(text, text_rect)
+            self.screen.blit(restart_button.image, restart_button.rect)
+            self.clock.tick(fps)
+            pygame.display.update()
     
     def main2(self):
 
@@ -179,11 +242,13 @@ class Game:
         while self.playing:
             self.events()
             self.update()
-            self.draw()
+            
+            self.redraw()
+            
            
             
             
-        self.running = False
+        
         
  
         
