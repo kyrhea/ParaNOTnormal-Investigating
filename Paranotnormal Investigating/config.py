@@ -2,7 +2,7 @@
 
 win_width = 720
 win_height = 480
-tilesize = 32
+tilesize = 64
 fps = 60
 
 player_layer = 4
@@ -23,11 +23,11 @@ player_speed = 3
 tilemap = [
     'BBBBBBBBBBBBBBBBBBBB',
     '....................',
-    'BBBBBBBBBBMMMBBBBBBB',
+    'BBBBBBBBBBBMBBBBBBBB',
+    'B..W...............B',
     'B..................B',
     'B..................B',
-    'B..................B',
-    'B..................B',
+    'B........P.........B',
     'B..................B',
     'B..................B',
     'B..................B',
@@ -47,11 +47,11 @@ tilemap = [
 tilemap2 = [
     'BBBBBBBBBBBBBBBBBBBB',
     '....................',
-    'BBBBBBBBBBMMMBBBBBBB',
+    'BBBBBBBBBBBBBBBBBBBB',
     'B.E...B............B',
     'B.....B............B',
     'B.....B............B',
-    'BBBBBDB........C...B',
+    'BBBBDDB........C...B',
     'B..................B',
     'B..K......P........B',
     'B.............K....B',

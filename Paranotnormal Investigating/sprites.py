@@ -115,10 +115,11 @@ class Player(pygame.sprite.Sprite):
         self.collide('y')
         self.collideMainDoor('y')
         self.collideCat('y')
-        self.collideDoor('y')
+        
         self.collideCorner('y')
         self.collideWoman('y')
         self.collideEnemy('y')
+        self.collideDoor('y')
 
 
 
@@ -330,6 +331,8 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = hits[0].rect.top - self.rect.height
                 if self.y_change < 0:
                     self.rect.y = hits[0].rect.bottom
+      
+
        
 
 
@@ -404,8 +407,7 @@ class Block(pygame.sprite.Sprite):
         self.width = tilesize
         self.height = tilesize
 
-        self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(blue)
+        self.image = self.game.tile_spritesheet.get_sprite(64, 0, self.width, self.height)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -438,7 +440,7 @@ class cornerBlock(pygame.sprite.Sprite):
 
 class Button:
     def __init__(self, x, y, width, height, fg, bg, content, fontsize):
-        self.font = pygame.font.Font('.\img\pixel_font.ttf', fontsize)
+        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', fontsize)
         self.content = content
 
         self.x = x
@@ -502,7 +504,7 @@ class mainDoor(pygame.sprite.Sprite):
                
                 self.clicked = True
                 
-                door_noise = pygame.mixer.Sound('.\img\door_sound.wav')
+                door_noise = pygame.mixer.Sound(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\door_sound.wav')
                 pygame.mixer.Sound.play(door_noise)
                 
                 self.fade(2000, 1000)
@@ -592,7 +594,7 @@ class Door(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
         self.clicked = False
-        self.lock = True
+        self.open = False
        
     def is_clicked(self):
         pos = pygame.mouse.get_pos()
@@ -605,6 +607,7 @@ class Door(pygame.sprite.Sprite):
         return self.clicked
     
     def locked(self):
+        #Player.collideDoor(self, any)
         print('made it')
         #k.inventory(self)
         if self.game.keys != 0:
@@ -614,12 +617,18 @@ class Door(pygame.sprite.Sprite):
             
     
     def unlock(self):
+        
+        pygame.sprite.spritecollide(self.game.player, self.game.door, True)
+
         self.kill()
-        self.game.keys -= 1
+
+        #self.game.keys -= 1
+        self.open = True
 
 
     def update(self):
         self.is_clicked()
+        
 
 
 
@@ -641,7 +650,7 @@ class Cat(pygame.sprite.Sprite):
         self.height =  tilesize
 
     
-        self.image = pygame.image.load('./img/boy01.png')
+        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
@@ -677,7 +686,7 @@ class Cat(pygame.sprite.Sprite):
         #pygame.draw.rect(self.screen, 'dark gray', [0, 300, 800,200])
      
         
-        self.font = pygame.font.Font('.\img\pixel_font.ttf', 24)
+        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', 24)
         self.snip = self.font.render('', True, 'white')
         self.counter = 0
         self.speed = 3
