@@ -17,18 +17,19 @@ class Game:
 
         self.fullscreen = False
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', 32)
+        self.font = pygame.font.Font('.\img\pixel_font.ttf', 32)
         self.running = True
 
-        pygame.mixer.music.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\back_music.wav')
+        pygame.mixer.music.load('./img/back_music.wav')
         pygame.mixer.music.play(-1)
 
-        self.intro_background = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\start_para.png')
+        self.intro_background = pygame.image.load('.\img\start_para.png')
         self.intro_background = pygame.transform.scale(self.intro_background, (win_width, win_height))
 
-        self.character_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy_ss.png')
-
-        self.tile_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\tile_ss.png')
+        self.character_spritesheet = Spritesheet('./img/boy_ss.png')
+        self.tile_spritesheet = Spritesheet('./img/tile_ss.png')
+        self.cute_spritesheet = Spritesheet('./img/cute_ss.png')
+        self.cat_spritesheet = Spritesheet('./img/cat_ss.png')
 
         self.cat_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\cat_ss.png')
         self.cuteghost_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\cute_ss.png')
@@ -50,6 +51,7 @@ class Game:
         
         for i, row in enumerate(tilemap):
             for j, column in enumerate(row):
+                Ground(self, j, i)
                 Ground2(self, j, i)
                 if column == "B":
                     Block(self, j, i)
@@ -68,6 +70,7 @@ class Game:
         #enumerate gets position and content of item
         for i, row in enumerate(tilemap2):
             for j, column in enumerate(row):
+                Ground(self, j, i)
                 Ground1(self, j, i)
                 if column == "B":
                     Block(self, j, i)
@@ -249,6 +252,7 @@ class Game:
             self.events()
             self.update()
             self.draw()
+           
 
             
 
