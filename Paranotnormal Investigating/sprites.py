@@ -129,6 +129,12 @@ class Player(pygame.sprite.Sprite):
         self.x_change = 0
         self.y_change = 0
 
+
+
+
+
+
+
     def movement(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
@@ -357,7 +363,7 @@ class Player(pygame.sprite.Sprite):
 
 
 
-#NOT FINISHED
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
 
