@@ -17,25 +17,23 @@ class Game:
 
         self.fullscreen = False
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font('.\img\pixel_font.ttf', 32)
+        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', 32)
         self.running = True
 
-        pygame.mixer.music.load('./img/back_music.wav')
+        pygame.mixer.music.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\back_music.wav')
         pygame.mixer.music.play(-1)
 
-        self.intro_background = pygame.image.load('.\img\start_para.png')
+        self.intro_background = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\start_para.png')
         self.intro_background = pygame.transform.scale(self.intro_background, (win_width, win_height))
 
-        self.character_spritesheet = Spritesheet('./img/boy_ss.png')
-        self.tile_spritesheet = Spritesheet('./img/tile_ss.png')
-        self.cute_spritesheet = Spritesheet('./img/cute_ss.png')
-        self.cat_spritesheet = Spritesheet('./img/cat_ss.png')
-
+        self.character_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy_ss.png')
+        self.tile_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\tile_ss.png')
+        
         self.cat_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\cat_ss.png')
         self.cuteghost_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\cute_ss.png')
         self.angryghost_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\ghost.png')
         self.transform_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\evo_ss.png')
-
+        self.attack_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\attack_ss.png')
         self.cut_scene_manager = CutSceneManager(self.screen)
         self.fog = pygame.Surface((2000, 2000))
         self.fog.fill(NIGHT_COLOR)
@@ -217,6 +215,15 @@ class Game:
                         self.screen = pygame.display.set_mode(self.monitor_size, pygame.FULLSCREEN)
                     else:
                         self.screen = pygame.display.set_mode((self.screen.get_width(), self.screen.get_height()), pygame.RESIZABLE)
+                if event.key == pygame.K_r:
+                    if self.player.facing == "up":
+                        Attack(self, self.player.rect.x, self.player.rect.y - tilesize)
+                    if self.player.facing == "down":
+                        Attack(self, self.player.rect.x, self.player.rect.y + tilesize)
+                    if self.player.facing == "left":
+                        Attack(self, self.player.rect.x - tilesize, self.player.rect.y)
+                    if self.player.facing == "right":
+                        Attack(self, self.player.rect.x + tilesize, self.player.rect.y)
                             
     def update(self):
         #game loop updates
@@ -225,6 +232,7 @@ class Game:
         self.cut_scene_manager.update()
 
     def render_fog(self):
+        self._layer = ground_layer
         self.fog.fill(NIGHT_COLOR)
         self.light_rect.center = self.camera.apply(self.player).center
         self.fog.blit(self.light_mask, self.light_rect)
@@ -263,8 +271,9 @@ class Game:
         self.screen.fill(black)
         self.all_sprites.draw(self.screen)
         self.clock.tick(fps)
-        self.cut_scene_manager.draw()
         self.render_fog()
+        self.cut_scene_manager.draw()
+        
 
         pygame.display.update()   
 
@@ -280,6 +289,7 @@ class Game:
 
 
     def main2(self):
+        self.cut_scene_manager.start_cut_scene(CutSceneThree(self))
 
         pygame.display.update()
 
@@ -311,6 +321,7 @@ class Game:
     def main4(self):
 
         pygame.display.update()
+        self.cut_scene_manager.start_cut_scene(CutSceneTwo(self))
 
         self.newGame4()
         
@@ -353,7 +364,7 @@ class Game:
             self.screen.blit(play_button.image, play_button.rect)
             self.clock.tick(fps)
             pygame.display.update()
-            
+
     def gameOver(self):
         text = self.font.render('Game Over', True, white)
         text_rect = text.get_rect(center=(win_width/2, win_height/2))

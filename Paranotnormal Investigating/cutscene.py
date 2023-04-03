@@ -144,22 +144,7 @@ class CutSceneTwo:
                 if space:
                     self.cut_scene_running = False
 
-        #Second part (player movement)
-        # if self.step == 1:
-        #     print('hee')
-        #     transform(self.player)
-        #     self.t = True
-        #     if space:
-        #          self.cut_scene_running = False
-
-        # # Third part (dialogue)
-        # if self.step == 2:
-        #     if int(self.text_counter) < len(self.text['three']):
-        #         self.text_counter += 0.4
-        #     else:
-        #         if space:
-        #             # Finish the cut scene
-        #             self.cut_scene_running = False
+     
 
         return self.cut_scene_running
 
@@ -175,29 +160,253 @@ class CutSceneTwo:
                 50
             )
 
-        # if self.step == 1:
-        #     draw_text(
-        #         screen,
-        #         self.text['two'][0:int(self.text_counter)],
-        #         50,
-        #         (255, 255, 255),
-        #         50,
-        #         50
-        #     )
+class CutSceneThree:
+    
+    def __init__(self, player):
+
+        # Variables
+        self.name = 'three'
+        self.step = 0
+        self.timer = pygame.time.get_ticks()
+        self.cut_scene_running = True
+
+        # If we need to control the player while a cut scene running
+
+        # Dialogue
+        self.text = {
+            'one': "Boy: This place looks empiter than I thought",
+            'two': "Boy: I guess I should look around ",
+            
+            
+        }
+        self.text_counter = 0
+
+    def update(self):
+
+        pressed = pygame.key.get_pressed()
+        space = pressed[pygame.K_SPACE]
+       
+
         
-        # if self.step == 2:
-        #     draw_text(
-        #         screen,
-        #         self.text['three'][0:int(self.text_counter)],
-        #         50,
-        #         (255, 255, 255),
-        #         50,
-        #         50
-        #     )
+        # First cut scene step (dialogue)
+        if self.step == 0:
+            #self.game.player.rect.y += 1
+            if int(self.text_counter) < len(self.text['one']):
+                self.text_counter += 0.4
+            else:
+                if space:
+                    self.step = 1
+
+        # Second part (player movement)
+        if self.step == 1:
+            if int(self.text_counter) < len(self.text['two']):
+                self.text_counter += 0.4
+            else:
+                if space:
+                    self.cut_scene_running = False
+
+    
+
+        return self.cut_scene_running
+
+    def draw(self, screen):
+        
+        if self.step == 0:
+            draw_text(
+                screen,
+                self.text['one'][0:int(self.text_counter)],
+                50,
+                (255, 255, 255),
+                50,
+                50
+            )
+
+        if self.step == 1:
+            draw_text(
+                screen,
+                self.text['two'][0:int(self.text_counter)],
+                50,
+                (255, 255, 255),
+                50,
+                50
+            )
+        
+        if self.step == 2:
+            draw_text(
+                screen,
+                self.text['three'][0:int(self.text_counter)],
+                50,
+                (255, 255, 255),
+                50,
+                50
+            )
+ 
+
+class CutSceneFour:
+    
+    def __init__(self, player):
+
+        # Variables
+        self.name = 'three'
+        self.step = 0
+        self.timer = pygame.time.get_ticks()
+        self.cut_scene_running = True
+
+        # If we need to control the player while a cut scene running
+
+        # Dialogue
+        self.text = {
+            'one': "Boy: HOLY...I guess ghosts do exist",
+            'two': "Boy: Though this ones so cute ",
+            
+            
+        }
+        self.text_counter = 0
+
+    def update(self):
+
+        pressed = pygame.key.get_pressed()
+        space = pressed[pygame.K_SPACE]
+       
+
+        
+        # First cut scene step (dialogue)
+        if self.step == 0:
+            #self.game.player.rect.y += 1
+            if int(self.text_counter) < len(self.text['one']):
+                self.text_counter += 0.4
+            else:
+                if space:
+                    self.step = 1
+
+        # Second part (player movement)
+        if self.step == 1:
+            if int(self.text_counter) < len(self.text['two']):
+                self.text_counter += 0.4
+            else:
+                if space:
+                    self.cut_scene_running = False
+
+    
+
+        return self.cut_scene_running
+
+    def draw(self, screen):
+        
+        if self.step == 0:
+            draw_text(
+                screen,
+                self.text['one'][0:int(self.text_counter)],
+                50,
+                (255, 255, 255),
+                50,
+                50
+            )
+
+        if self.step == 1:
+            draw_text(
+                screen,
+                self.text['two'][0:int(self.text_counter)],
+                50,
+                (255, 255, 255),
+                50,
+                50
+            )
+        
+        if self.step == 2:
+            draw_text(
+                screen,
+                self.text['three'][0:int(self.text_counter)],
+                50,
+                (255, 255, 255),
+                50,
+                50
+            )
+ 
 
 
 
+class CutSceneFive:
+    
+    def __init__(self, player):
 
+        # Variables
+        self.name = 'three'
+        self.step = 0
+        self.timer = pygame.time.get_ticks()
+        self.cut_scene_running = True
+
+        # If we need to control the player while a cut scene running
+
+        # Dialogue
+        self.text = {
+            'one': "Boy: Oooooh a key",
+            'two': "Boy: TI wonder where it goes to ",
+            
+            
+        }
+        self.text_counter = 0
+
+    def update(self):
+
+        pressed = pygame.key.get_pressed()
+        space = pressed[pygame.K_SPACE]
+       
+
+        
+        # First cut scene step (dialogue)
+        if self.step == 0:
+            #self.game.player.rect.y += 1
+            if int(self.text_counter) < len(self.text['one']):
+                self.text_counter += 0.4
+            else:
+                if space:
+                    self.step = 1
+
+        # Second part (player movement)
+        if self.step == 1:
+            if int(self.text_counter) < len(self.text['two']):
+                self.text_counter += 0.4
+            else:
+                if space:
+                    self.cut_scene_running = False
+
+    
+
+        return self.cut_scene_running
+
+    def draw(self, screen):
+        
+        if self.step == 0:
+            draw_text(
+                screen,
+                self.text['one'][0:int(self.text_counter)],
+                50,
+                (255, 255, 255),
+                50,
+                50
+            )
+
+        if self.step == 1:
+            draw_text(
+                screen,
+                self.text['two'][0:int(self.text_counter)],
+                50,
+                (255, 255, 255),
+                50,
+                50
+            )
+        
+        if self.step == 2:
+            draw_text(
+                screen,
+                self.text['three'][0:int(self.text_counter)],
+                50,
+                (255, 255, 255),
+                50,
+                50
+            )
+ 
 
 
 
