@@ -331,7 +331,7 @@ class CutSceneFive:
     def __init__(self, player):
 
         # Variables
-        self.name = 'three'
+        self.name = 'four'
         self.step = 0
         self.timer = pygame.time.get_ticks()
         self.cut_scene_running = True
