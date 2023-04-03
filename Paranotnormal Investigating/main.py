@@ -38,8 +38,10 @@ class Game:
     def createTilemap(self):
         #loop through tilemap
         #enumerate gets position and content of item
+        
         for i, row in enumerate(tilemap):
             for j, column in enumerate(row):
+                Ground(self, j, i)
                 if column == "B":
                     Block(self, j, i)
                 if column == "P":
@@ -57,6 +59,7 @@ class Game:
         #enumerate gets position and content of item
         for i, row in enumerate(tilemap2):
             for j, column in enumerate(row):
+                Ground(self, j, i)
                 if column == "B":
                     Block(self, j, i)
                 if column == "P":
