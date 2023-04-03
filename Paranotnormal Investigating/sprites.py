@@ -404,8 +404,8 @@ class Block(pygame.sprite.Sprite):
         self.width = tilesize
         self.height = tilesize
 
-        self.image = self.game.tile_spritesheet.get_sprite(0, 0, self.width, self.height)
-
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(blue)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -438,7 +438,7 @@ class cornerBlock(pygame.sprite.Sprite):
 
 class Button:
     def __init__(self, x, y, width, height, fg, bg, content, fontsize):
-        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', fontsize)
+        self.font = pygame.font.Font('.\img\pixel_font.ttf', fontsize)
         self.content = content
 
         self.x = x
@@ -487,8 +487,8 @@ class mainDoor(pygame.sprite.Sprite):
         self.height =  tilesize
 
     
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
-        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+        self.image = self.game.tile_spritesheet.get_sprite(128, 64, self.width, (self.height*2))
+        #self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
         self.rect = self.image.get_rect()
@@ -501,6 +501,9 @@ class mainDoor(pygame.sprite.Sprite):
             if pygame.mouse.get_pressed()[0] and not self.clicked:
                
                 self.clicked = True
+                
+                door_noise = pygame.mixer.Sound('.\img\door_sound.wav')
+                pygame.mixer.Sound.play(door_noise)
                 
                 self.fade(2000, 1000)
                 
@@ -638,7 +641,7 @@ class Cat(pygame.sprite.Sprite):
         self.height =  tilesize
 
     
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
+        self.image = pygame.image.load('./img/boy01.png')
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
@@ -674,7 +677,7 @@ class Cat(pygame.sprite.Sprite):
         #pygame.draw.rect(self.screen, 'dark gray', [0, 300, 800,200])
      
         
-        self.font = pygame.font.Font('freesansbold.ttf', 24)
+        self.font = pygame.font.Font('.\img\pixel_font.ttf', 24)
         self.snip = self.font.render('', True, 'white')
         self.counter = 0
         self.speed = 3
