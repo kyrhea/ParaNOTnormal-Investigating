@@ -46,11 +46,8 @@ class Game:
         
         for i, row in enumerate(tilemap):
             for j, column in enumerate(row):
-<<<<<<< HEAD
                 Ground(self, j, i)
-=======
                 Ground2(self, j, i)
->>>>>>> a6738b0baf200b1dbb94b976fa0f32c2d606e6ba
                 if column == "B":
                     Block(self, j, i)
                 if column == "P":
@@ -68,11 +65,8 @@ class Game:
         #enumerate gets position and content of item
         for i, row in enumerate(tilemap2):
             for j, column in enumerate(row):
-<<<<<<< HEAD
                 Ground(self, j, i)
-=======
                 Ground1(self, j, i)
->>>>>>> a6738b0baf200b1dbb94b976fa0f32c2d606e6ba
                 if column == "B":
                     Block(self, j, i)
                 if column == "P":
@@ -187,14 +181,11 @@ class Game:
             self.events()
             self.update()
             self.draw()
-<<<<<<< HEAD
            
-=======
 
             
 
 
->>>>>>> a6738b0baf200b1dbb94b976fa0f32c2d606e6ba
             pygame.display.update()
         
     def redraw(self):
