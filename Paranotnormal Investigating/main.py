@@ -7,7 +7,6 @@ from cutscene import *
 from pygame.locals import *
 
 
-
 class Game:
     def __init__(self):
         pygame.init()
@@ -34,11 +33,10 @@ class Game:
         self.cut_scene_manager = CutSceneManager(self.screen)
         self.fog = pygame.Surface((2000, 2000))
         self.fog.fill(NIGHT_COLOR)
-        self.light_mask = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\light_350_med.png').convert_alpha()
+        self.light_mask = pygame.image.load('./img/light_350_med.png').convert_alpha()
         self.light_mask = pygame.transform.scale(self.light_mask, LIGHT_RADIUS)
         self.light_rect = self.light_mask.get_rect()
         self.camera = Camera(win_width, win_height)
-
 
     def createTilemap(self):
         #loop through tilemap
@@ -58,8 +56,7 @@ class Game:
                     cornerBlock(self, j, i)
                 if column == 'W':
                     woman(self, j, i)
-                
-                    
+                             
     def createTilemap2(self):
         #loop through tilemap
         #enumerate gets position and content of item
@@ -84,10 +81,6 @@ class Game:
                 if column == 'T':
                     Block3(self,j,i)
             
-    
-
-
-
     def newGame(self):
         #new game starts
         self.playing = True #if player dies or quits
@@ -103,12 +96,7 @@ class Game:
         self.cornerBlock = pygame.sprite.LayeredUpdates()
         self.woman = pygame.sprite.LayeredUpdates()
 
-
-
         self.createTilemap()
-
-
-
 
     def newGame2(self):
         #new game starts
@@ -135,17 +123,17 @@ class Game:
             if event.type == pygame.QUIT:
                 self.playing = False
                 self.running = False
-            if event.type == VIDEORESIZE:
-                if not self.fullscreen:
-                    self.screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+            #if event.type == VIDEORESIZE:
+                #if not self.fullscreen:
+                    #self.screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
 
-            if event.type == KEYDOWN:
-                if event.key == K_f:
-                    self.fullscreen = not self.fullscreen
-                    if self.fullscreen:
-                        self.screen = pygame.display.set_mode(self.monitor_size, pygame.FULLSCREEN)
-                    else:
-                        self.screen = pygame.display.set_mode((self.screen.get_width(), self.screen.get_height()), pygame.RESIZABLE)
+            #if event.type == KEYDOWN:
+                #if event.key == K_f:
+                    #self.fullscreen = not self.fullscreen
+                    #if self.fullscreen:
+                        #self.screen = pygame.display.set_mode(self.monitor_size, pygame.FULLSCREEN)
+                    #else:
+                        #self.screen = pygame.display.set_mode((self.screen.get_width(), self.screen.get_height()), pygame.RESIZABLE)
                             
     def update(self):
         #game loop updates
@@ -159,9 +147,6 @@ class Game:
         self.fog.blit(self.light_mask, self.light_rect)
         self.screen.blit(self.fog, (0,0), special_flags= pygame.BLEND_MULT)
 
-
-        
-    
     def draw(self):
         self.screen.fill(black)
         self.all_sprites.draw(self.screen)
@@ -170,21 +155,12 @@ class Game:
         #self.render_fog()
         pygame.display.update()
         
-                
-
-
     def main(self):
         #game loop
-        
-        
         while self.playing:
             self.events()
             self.update()
             self.draw()
-           
-
-            
-
 
             pygame.display.update()
         
@@ -197,9 +173,6 @@ class Game:
 
         pygame.display.update()        
             
-            
-        
-
     def gameOver(self):
         text = self.font.render('Game Over', True, white)
         text_rect = text.get_rect(center=(win_width/2, win_height/2))
@@ -236,18 +209,8 @@ class Game:
             
             self.redraw()
             
-           
-            
-            
-        
-        
- 
-        
-    
     def startScreen(self):
         intro = True
-        
-
         #title = self.font.render('ParaNOTnormal Investigating', True, white)
         #title_rect = title.get_rect(x=10,y=10)
 
@@ -281,7 +244,6 @@ class Game:
         if self.state == 'main2':
             self.main2()
         
-
 g = Game()
 g.startScreen()
 g.newGame()

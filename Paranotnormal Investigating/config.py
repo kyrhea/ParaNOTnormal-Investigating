@@ -17,7 +17,7 @@ blue = (0, 0, 255)
 green = (0, 255, 0)
 dark_blue = (2, 7, 18)
 
-light_mask = r"C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\light_350_med.png"
+light_mask = './img/light_350_med.png'
 player_speed = 3
 NIGHT_COLOR = (20, 20, 20)
 LIGHT_RADIUS = (500, 500)
@@ -27,11 +27,11 @@ tilemap = [
     'BBBBBBBBBBBBBBBBBBBB',
     'BBBBBBBBBBBMBBBBBBBB',
     'B.W................B',
+    'B....P.............B',
     'B..................B',
     'B..................B',
     'B..................B',
     'B..................B',
-    'B........P.........B',
     'B..................B',
     'B..................B',
     'B..................B',
@@ -50,14 +50,14 @@ tilemap = [
 
 tilemap2 = [
     'BBBBBBBBBBBBBBBBBBBB',
-    'BTTTTTBTTTTTTTTTTTSB',
-    'BTSTTTBTTTTTTTTTTTSB',
-    'B.E...B............B',
-    'B.....B............B',
-    'B.....B............B',
-    'BBBBDDB........C...B',
+    'BTTTTTTSTTTTBTTTTTSB',
+    'BTSTTTTTTTTTBTTTTTSB',
+    'B...........B.E....B',
+    'B..P........B......B',
+    'B......C....B......B',
+    'B...........BBBBDDBB',
     'B..................B',
-    'B..K......P........B',
+    'B..K...............B',
     'B.............K....B',
     'B..................B',
     'B...BB.......B.....B',

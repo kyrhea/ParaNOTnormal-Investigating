@@ -824,7 +824,7 @@ class Cat(pygame.sprite.Sprite):
 
         m = True
         while m:
-            pygame.draw.rect(self.screen, 'dark gray', [0, 550, 1500,200])
+            pygame.draw.rect(self.screen, 'dark gray', [0, (win_height-120), win_width, win_height])
 
 
             
@@ -933,7 +933,7 @@ class woman(pygame.sprite.Sprite):
         self.height =  tilesize
 
     
-        self.image = pygame.image.load('./img/boy01.png')
+        self.image = pygame.image.load('./img/woman.png')
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
