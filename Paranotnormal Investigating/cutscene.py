@@ -1,6 +1,7 @@
 import pygame, sys
 from config import *
 from pygame.locals import *
+from sprites import *
 
 
 def draw_text(screen, text, size, color, x, y):
@@ -37,14 +38,7 @@ class CutSceneOne:
 
         pressed = pygame.key.get_pressed()
         space = pressed[pygame.K_SPACE]
-        if pressed[pygame.K_LEFT]:
-                self.rect.x -= 0
-        if pressed[pygame.K_RIGHT]:
-                self.rect.x += 0
-        if pressed[pygame.K_UP]:
-                self.rect.y -= 0
-        if pressed[pygame.K_DOWN]:
-                self.rect.y += 0
+       
 
         
         # First cut scene step (dialogue)

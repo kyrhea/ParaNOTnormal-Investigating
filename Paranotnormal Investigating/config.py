@@ -21,10 +21,10 @@ dark_blue = (2, 7, 18)
 player_speed = 3
 
 tilemap = [
-    'BBBBBBBBBBBBBBBBBBBB',
-    '....................',
     'BBBBBBBBBBBMBBBBBBBB',
-    'B..W...............B',
+    'B.W................B',
+    'B..................B',
+    'B..................B',
     'B..................B',
     'B..................B',
     'B........P.........B',
@@ -46,8 +46,8 @@ tilemap = [
 
 tilemap2 = [
     'BBBBBBBBBBBBBBBBBBBB',
-    '....................',
-    'BBBBBBBBBBBBBBBBBBBB',
+    'BTTTTTBTTTTTTTTTTTSB',
+    'BTSTTTBTTTTTTTTTTTSB',
     'B.E...B............B',
     'B.....B............B',
     'B.....B............B',

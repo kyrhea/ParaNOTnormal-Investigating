@@ -69,6 +69,10 @@ class Game:
                     k(self, j, i)
                 if column == 'E':
                     Enemy(self, j, i)
+                if column == 'S':
+                    Block2(self, j, i)
+                if column == 'T':
+                    Block3(self,j,i)
             
     
 

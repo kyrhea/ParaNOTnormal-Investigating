@@ -414,6 +414,44 @@ class Block(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
 
+class Block2(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = block_layer
+        self.groups = self.game.all_sprites, self.game.blocks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height = tilesize
+
+        self.image = self.game.tile_spritesheet.get_sprite(64, 64, self.width, self.height)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+class Block3(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = block_layer
+        self.groups = self.game.all_sprites, self.game.blocks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height = tilesize
+
+        self.image = self.game.tile_spritesheet.get_sprite(0, 64, self.width, self.height)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
 class cornerBlock(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
 
