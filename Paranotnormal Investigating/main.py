@@ -197,7 +197,28 @@ class Game:
         
 
     def gameOver(self):
-        pass
+        text = self.font.render('Game Over', True, white)
+        text_rect = text.get_rect(center=(win_width/2, win_height/2))
+
+        restart_button = Button(10, win_height - 60, 120, 50, white, black, 'Restart', 32)
+
+        for sprite in self.all_sprites:
+            sprite.kill()
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running  = False
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_pressed = pygame.mouse.get_pressed()
+
+            if restart_button.is_pressed(mouse_pos, mouse_pressed):
+                self.new()
+                self.main()
+            self.screen.blit(self.intro_background, (0,0))
+            self.screen.blit(text, text_rect)
+            self.screen.blit(restart_button.image, restart_button.rect)
+            self.clock.tick(fps)
+            pygame.display.update()
     
     def main2(self):
 
@@ -214,7 +235,7 @@ class Game:
            
             
             
-        self.running = False
+        
         
  
         

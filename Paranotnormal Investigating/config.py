@@ -23,6 +23,9 @@ NIGHT_COLOR = (20, 20, 20)
 LIGHT_RADIUS = (500, 500)
 tilemap = [
     'BBBBBBBBBBBMBBBBBBBB',
+    'BBBBBBBBBBBBBBBBBBBB',
+    'BBBBBBBBBBBBBBBBBBBB',
+    'BBBBBBBBBBBMBBBBBBBB',
     'B.W................B',
     'B..................B',
     'B..................B',

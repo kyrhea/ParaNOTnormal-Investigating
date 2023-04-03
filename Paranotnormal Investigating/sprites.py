@@ -368,7 +368,7 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
 
         self.game = game
-        self._layer = player_layer
+        self._layer = enemy_layer
         self.groups = self.game.all_sprites, self.game.ghost
         pygame.sprite.Sprite.__init__(self, self.groups)
 
