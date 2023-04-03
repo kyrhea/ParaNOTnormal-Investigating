@@ -27,6 +27,7 @@ class Game:
 
         self.character_spritesheet = Spritesheet('./img/boy_ss.png')
         self.tile_spritesheet = Spritesheet('./img/tile_ss.png')
+        self.cute_spritesheet = Spritesheet('./img/cute_ss.png')
 
 
     def fade(self, width, height): 

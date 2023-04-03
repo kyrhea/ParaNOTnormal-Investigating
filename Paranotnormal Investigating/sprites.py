@@ -398,7 +398,7 @@ class mainDoor(pygame.sprite.Sprite):
                 
                 door_noise = pygame.mixer.Sound('.\img\door_sound.wav')
                 pygame.mixer.Sound.play(door_noise)
-                
+
                 self.fade(1000, 800)
                 
 
@@ -526,14 +526,26 @@ class Cat(pygame.sprite.Sprite):
         self.width = tilesize
         self.height =  tilesize
 
-    
-        self.image = pygame.image.load('./img/boy01.png')
-        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+        self.image = self.game.cute_spritesheet.get_sprite(0,0, self.width, self.height)
+        self.animation_loop = 1
+        #self.image = pygame.image.load('./img/boy01.png')
+        #self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+
+    def animate(self):
+        cute_animations = [self.game.cute_spritesheet.get_sprite(0, 0, self.width, (self.height-10)),
+        self.game.cute_spritesheet.get_sprite(64, 0, self.width, (self.height-10)),
+        self.game.cute_spritesheet.get_sprite(0, 64, self.width, (self.height-10)),
+        self.game.cute_spritesheet.get_sprite(64, 64, self.width, (self.height-10)),]
+
+        self.image = cute_animations[math.floor(self.animation_loop)]
+        self.animation_loop += 0.05
+        if self.animation_loop >=4:
+            self.animation_loop = 1
         
         
     def is_clicked(self):
@@ -551,6 +563,7 @@ class Cat(pygame.sprite.Sprite):
         
     def update(self):
         self.is_clicked()
+        self.animate()
        
         
 
@@ -631,7 +644,7 @@ class keys(pygame.sprite.Sprite):
         self.keys = 0
 
     
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
+        self.image = pygame.image.load('./img/boy01.png')
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
