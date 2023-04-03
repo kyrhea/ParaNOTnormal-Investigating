@@ -1,7 +1,6 @@
-import pygame, sys
+import pygame
 from config import *
 import math
-import random
 from pygame.locals import *
 from cutscene import *
 
@@ -264,25 +263,11 @@ class Player(pygame.sprite.Sprite):
             hits = pygame.sprite.spritecollide(self, self.game.ghost, False)
             
             if hits:
-                #right
-                if self.x_change > 0:
-                    self.rect.x = hits[0].rect.left - self.rect.width
-                if self.x_change < 0: #left
-                    #hits[0] = wall colliding with
-                    self.rect.x = hits[0].rect.right
+                self.kill()
+                self.game.playing = False
        
         
-                    
-        if direction == "y":
-            hits = pygame.sprite.spritecollide(self, self.game.ghost, False)
-           
-
-            if hits:
-                #down
-                if self.y_change > 0:
-                    self.rect.y = hits[0].rect.top - self.rect.height
-                if self.y_change < 0:
-                    self.rect.y = hits[0].rect.bottom
+     
 
 
     def collideMainDoor(self, direction):
@@ -360,17 +345,15 @@ class Player(pygame.sprite.Sprite):
        
                
 
-
-
-
-
-class Enemy(pygame.sprite.Sprite):
+class Enemy2(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
 
         self.game = game
         self._layer = enemy_layer
         self.groups = self.game.all_sprites, self.game.ghost
         pygame.sprite.Sprite.__init__(self, self.groups)
+        self.screen = pygame.display.set_mode((win_width, win_height), pygame.RESIZABLE)
+
 
         self.x = x * tilesize
         self.y = y * tilesize
@@ -383,19 +366,201 @@ class Enemy(pygame.sprite.Sprite):
         #self.image = self.game.enemy_spritesheet.get_sprite(3, 2, self.width, self.height)
 
         #self.image.set_colorkey(black)
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
+        self.image = self.game.cuteghost_spritesheet.get_sprite(0, 0, self.width, (self.height-10))
+        self.animation_loop = 1
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+        self.clicked = False
+        self.t = False
+        self.r = False
+        self.p = False
+    def transform(self):
+        self.transform_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\evo_ss.png')
         
+        self.transform_animations = [self.transform_spritesheet.get_sprite(0, 0, self.width, (self.height-10)),
+        self.transform_spritesheet.get_sprite(64, 0, self.width, (self.height-10)),
+        self.transform_spritesheet.get_sprite(128, 0, self.width, (self.height-10)),
+        self.transform_spritesheet.get_sprite(0, 64, self.width, (self.height-10)),
+        self.transform_spritesheet.get_sprite(64, 64, self.width, (self.height-10)),]
+
+
+        
+        self.image = self.transform_animations[math.floor(self.animation_loop)]
+        
+        self.animation_loop += 0.02
+        if self.animation_loop >=4:
+            self.animation_loop = 1
     def update(self):
-        self.rect.x += self.x_change
-        self.rect.y += self.y_change
+        self.transform()
+        pygame.time.delay(400)
+        self.game.main4()
+        
+        # pressed = pygame.key.get_pressed()
+        # space = pressed[pygame.K_SPACE]
+        # if space:
+        #     self.game.main4()
+       
+
+
+
+class Enemy3(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = enemy_layer
+        self.groups = self.game.all_sprites, self.game.ghost
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.screen = pygame.display.set_mode((win_width, win_height), pygame.RESIZABLE)
+
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height = tilesize
 
         self.x_change = 0
         self.y_change = 0
+
+        #self.image = self.game.enemy_spritesheet.get_sprite(3, 2, self.width, self.height)
+
+        #self.image.set_colorkey(black)
+        self.image = self.game.angryghost_spritesheet.get_sprite(0, 0, self.width, (self.height-10))
+        self.animation_loop = 1
+        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+        self.clicked = False
+    def angry(self):
+        angry_animations = [self.game.angryghost_spritesheet.get_sprite(0, 0, self.width, (self.height-10)),
+        self.game.angryghost_spritesheet.get_sprite(64, 0, self.width, (self.height-10)),
+        self.game.angryghost_spritesheet.get_sprite(0, 64, self.width, (self.height-10)),
+        self.game.angryghost_spritesheet.get_sprite(64, 64, self.width, (self.height-10)),]
+
+        self.image = angry_animations[math.floor(self.animation_loop)]
+        self.animation_loop += 0.05
+        if self.animation_loop >=4:
+            self.animation_loop = 0
+    def update(self):
+        self.angry()
+      
+
+
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = enemy_layer
+        self.groups = self.game.all_sprites, self.game.ghost
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.screen = pygame.display.set_mode((win_width, win_height), pygame.RESIZABLE)
+
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height = tilesize
+
+        self.x_change = 0
+        self.y_change = 0
+
+        #self.image = self.game.enemy_spritesheet.get_sprite(3, 2, self.width, self.height)
+
+        #self.image.set_colorkey(black)
+        self.image = self.game.cuteghost_spritesheet.get_sprite(0, 0, self.width, (self.height-10))
+        self.animation_loop = 1
+        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+        self.clicked = False
+        self.t = False
+        self.r = False
+        self.p = False
+    
+    def animate(self):
+        cute_animations = [self.game.cuteghost_spritesheet.get_sprite(0, 0, self.width, (self.height-10)),
+        self.game.cuteghost_spritesheet.get_sprite(64, 0, self.width, (self.height-10)),
+        self.game.cuteghost_spritesheet.get_sprite(0, 64, self.width, (self.height-10)),
+        self.game.cuteghost_spritesheet.get_sprite(64, 64, self.width, (self.height-10)),]
+
+        self.image = cute_animations[math.floor(self.animation_loop)]
+        self.animation_loop += 0.05
+        if self.animation_loop >=4:
+            self.animation_loop = 1
+    
+    def angry(self):
+        angry_animations = [self.game.angryghost_spritesheet.get_sprite(0, 0, self.width, (self.height-10)),
+        self.game.angryghost_spritesheet.get_sprite(64, 0, self.width, (self.height-10)),
+        self.game.angryghost_spritesheet.get_sprite(0, 64, self.width, (self.height-10)),
+        self.game.angryghost_spritesheet.get_sprite(64, 64, self.width, (self.height-10)),]
+
+        self.image = angry_animations[math.floor(self.animation_loop)]
+        self.animation_loop += 0.05
+        if self.animation_loop >=4:
+            self.animation_loop = 0
+
+
+    
+    def flick(self):
+        r=1
+        
+        while r<10:
+            self.screen.fill(pygame.Color('black'))
+            pygame.display.update()
+            pygame.time.wait(1)
+            self.screen.fill(pygame.Color('white'))
+            pygame.display.update()
+            pygame.time.wait(1)
+            r+=1  
+            pygame.time.delay(10)
+        
+        self.game.main3()
+
+     
+
+
+   
+    def is_clicked(self):
+        pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] and not self.clicked:
+               
+        
+                self.clicked = True
+                self.flick()
+                self.t = True
+               
+                
+
+            if not pygame.mouse.get_pressed()[0]:
+                self.clicked = False
+        return self.clicked
+    
+ 
+
+    def update(self):
+       
+       
+        self.rect.x += self.x_change
+        self.rect.y += self.y_change
+        self.animate()
+        self.x_change = 0
+        self.y_change = 0
+        self.is_clicked()
+        if self.p == True:
+            self.transform()
+        
+            #self.r = True
+            #self.t = False
+        # if self.r == True:
+        #     self.angry()
+
 
         
 
@@ -691,7 +856,6 @@ class Door(pygame.sprite.Sprite):
     
     def locked(self):
         #Player.collideDoor(self, any)
-        print('made it')
         #k.inventory(self)
         if self.game.keys != 0:
             self.unlock()
@@ -733,14 +897,22 @@ class Cat(pygame.sprite.Sprite):
         self.height =  tilesize
 
     
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
-        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+        self.image = self.game.cat_spritesheet.get_sprite(0, 0, self.width, self.height)
+        self.animation_loop = 0
         #self.image.fill(white)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
-        
+    
+    def animate(self):
+        cat_animations = [self.game.cat_spritesheet.get_sprite(0, 0, self.width, self.height),
+        self.game.cat_spritesheet.get_sprite(64, 0, self.width, self.height)]
+
+        self.image = cat_animations[math.floor(self.animation_loop)]
+        self.animation_loop += 0.07
+        if self.animation_loop >=2:
+            self.animation_loop = 0
         
     def is_clicked(self):
         pos = pygame.mouse.get_pos()
@@ -753,10 +925,13 @@ class Cat(pygame.sprite.Sprite):
                 self.clicked = False
         return self.clicked
         #self.screen.blit((self.image,(self.rect.x, self.rect.y) ))
+    
+  
         
         
     def update(self):
         self.is_clicked()
+        self.animate()
        
         
 

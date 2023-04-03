@@ -1,7 +1,9 @@
-import pygame, sys
+import pygame
 from config import *
 from pygame.locals import *
-from sprites import *
+
+
+
 
 
 def draw_text(screen, text, size, color, x, y):
@@ -10,6 +12,10 @@ def draw_text(screen, text, size, color, x, y):
     text_rect = text_surface.get_rect()
     text_rect.topleft = (x, y)
     screen.blit(text_surface, text_rect)
+        
+
+
+
 
 
 
@@ -100,6 +106,99 @@ class CutSceneOne:
                 50,
                 50
             )
+
+
+
+class CutSceneTwo:
+    
+    def __init__(self, player):
+
+        # Variables
+        self.name = 'scene2'
+        self.step = 0
+        self.timer = pygame.time.get_ticks()
+        self.cut_scene_running = True
+
+        # If we need to control the player while a cut scene running
+        self.player = player
+        # Dialogue
+        self.text = {
+            'one': "Boy: OH SHIT"
+        
+        }
+        self.text_counter = 0
+
+    def update(self):
+
+        pressed = pygame.key.get_pressed()
+        space = pressed[pygame.K_SPACE]
+       
+
+        
+        # First cut scene step (dialogue)
+        if self.step == 0:
+            #self.game.player.rect.y += 1
+            if int(self.text_counter) < len(self.text['one']):
+                self.text_counter += 0.4
+            else:
+                if space:
+                    self.cut_scene_running = False
+
+        #Second part (player movement)
+        # if self.step == 1:
+        #     print('hee')
+        #     transform(self.player)
+        #     self.t = True
+        #     if space:
+        #          self.cut_scene_running = False
+
+        # # Third part (dialogue)
+        # if self.step == 2:
+        #     if int(self.text_counter) < len(self.text['three']):
+        #         self.text_counter += 0.4
+        #     else:
+        #         if space:
+        #             # Finish the cut scene
+        #             self.cut_scene_running = False
+
+        return self.cut_scene_running
+
+    def draw(self, screen):
+        
+        if self.step == 0:
+            draw_text(
+                screen,
+                self.text['one'][0:int(self.text_counter)],
+                50,
+                (255, 255, 255),
+                50,
+                50
+            )
+
+        # if self.step == 1:
+        #     draw_text(
+        #         screen,
+        #         self.text['two'][0:int(self.text_counter)],
+        #         50,
+        #         (255, 255, 255),
+        #         50,
+        #         50
+        #     )
+        
+        # if self.step == 2:
+        #     draw_text(
+        #         screen,
+        #         self.text['three'][0:int(self.text_counter)],
+        #         50,
+        #         (255, 255, 255),
+        #         50,
+        #         50
+        #     )
+
+
+
+
+
 
 
 
