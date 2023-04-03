@@ -960,6 +960,13 @@ class woman(pygame.sprite.Sprite):
                     
             pygame.display.flip()
 
+class Camera:
+    def __init__(self, width, height):
+        self.camera = pygame.Rect(0, 0, width, height)
+        self.width = width
+        self.height = height
+    def apply(self, entity):
+        return entity.rect.move(self.camera.topleft)
 
 
         

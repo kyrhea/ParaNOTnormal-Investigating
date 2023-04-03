@@ -31,8 +31,12 @@ class Game:
         self.tile_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\tile_ss.png')
 
         self.cut_scene_manager = CutSceneManager(self.screen)
-
-
+        self.fog = pygame.Surface((2000, 2000))
+        self.fog.fill(NIGHT_COLOR)
+        self.light_mask = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\light_350_med.png').convert_alpha()
+        self.light_mask = pygame.transform.scale(self.light_mask, LIGHT_RADIUS)
+        self.light_rect = self.light_mask.get_rect()
+        self.camera = Camera(win_width, win_height)
 
 
     def createTilemap(self):
@@ -143,7 +147,16 @@ class Game:
     def update(self):
         #game loop updates
         self.all_sprites.update()
+        
         self.cut_scene_manager.update()
+
+    def render_fog(self):
+        self.fog.fill(NIGHT_COLOR)
+        self.light_rect.center = self.camera.apply(self.player).center
+        self.fog.blit(self.light_mask, self.light_rect)
+        self.screen.blit(self.fog, (0,0), special_flags= pygame.BLEND_MULT)
+
+
         
     
     def draw(self):
@@ -151,6 +164,7 @@ class Game:
         self.all_sprites.draw(self.screen)
         self.clock.tick(fps)
         self.cut_scene_manager.draw()
+        #self.render_fog()
         pygame.display.update()
         
                 
@@ -170,7 +184,14 @@ class Game:
 
             pygame.display.update()
         
-               
+    def redraw(self):
+        self.screen.fill(black)
+        self.all_sprites.draw(self.screen)
+        self.clock.tick(fps)
+        self.cut_scene_manager.draw()
+        self.render_fog()
+
+        pygame.display.update()        
             
             
         
@@ -187,7 +208,9 @@ class Game:
         while self.playing:
             self.events()
             self.update()
-            self.draw()
+            
+            self.redraw()
+            
            
             
             

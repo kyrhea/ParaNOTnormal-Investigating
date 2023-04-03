@@ -17,9 +17,10 @@ blue = (0, 0, 255)
 green = (0, 255, 0)
 dark_blue = (2, 7, 18)
 
-
+light_mask = r"C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\light_350_med.png"
 player_speed = 3
-
+NIGHT_COLOR = (20, 20, 20)
+LIGHT_RADIUS = (500, 500)
 tilemap = [
     'BBBBBBBBBBBMBBBBBBBB',
     'B.W................B',
