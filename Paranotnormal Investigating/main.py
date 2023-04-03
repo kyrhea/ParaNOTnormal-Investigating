@@ -159,11 +159,12 @@ class Game:
     def main(self):
         #game loop
         
+        
         while self.playing:
             self.events()
             self.update()
             self.draw()
-           
+
             
 
 
