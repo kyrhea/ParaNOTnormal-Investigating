@@ -2,6 +2,7 @@ import pygame, sys
 
 from sprites import *
 from config import *
+from cutscene import *
 
 from pygame.locals import *
 
@@ -16,15 +17,16 @@ class Game:
 
         self.fullscreen = False
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font('.\img\pixel_font.ttf', 32)
+        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', 32)
         self.running = True
 
-        pygame.mixer.music.load('./img/back_music.wav')
+        pygame.mixer.music.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\back_music.wav')
         pygame.mixer.music.play(-1)
 
-        self.intro_background = pygame.image.load('.\img\start_para.png')
+        self.intro_background = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\start_para.png')
         self.intro_background = pygame.transform.scale(self.intro_background, (win_width, win_height))
 
+<<<<<<< HEAD
         self.character_spritesheet = Spritesheet('./img/boy_ss.png')
         self.tile_spritesheet = Spritesheet('./img/tile_ss.png')
         self.cute_spritesheet = Spritesheet('./img/cute_ss.png')
@@ -39,8 +41,13 @@ class Game:
             self.screen.blit(fade, (0,0))
             pygame.display.update()
             pygame.time.delay(5)
+=======
+        self.character_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy_ss.png')
+>>>>>>> a208ed493a4379d8574731d6b821a2bab2f9c3f5
 
+        self.tile_spritesheet = Spritesheet(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\tile_ss.png')
 
+        self.cut_scene_manager = CutSceneManager(self.screen)
 
 
 
@@ -56,8 +63,11 @@ class Game:
                     self.player = Player(self, j, i)
                 if column == "M":
                     mainDoor(self, j, i)
-                if column == "C":
-                    Cat(self,j,i)
+                if column == 'Q':
+                    cornerBlock(self, j, i)
+                if column == 'W':
+                    woman(self, j, i)
+                
                     
     def createTilemap2(self):
         #loop through tilemap
@@ -70,6 +80,12 @@ class Game:
                     self.player = Player(self, j, i)
                 if column == "D":
                     Door(self, j, i)
+                if column == "C":
+                    Cat(self,j,i)
+                if column == 'K':
+                    k(self, j, i)
+                if column == 'E':
+                    Enemy(self, j, i)
             
     
 
@@ -87,6 +103,8 @@ class Game:
         self.mainDoor = pygame.sprite.LayeredUpdates()
         self.cat = pygame.sprite.LayeredUpdates()
         self.key = pygame.sprite.LayeredUpdates()
+        self.cornerBlock = pygame.sprite.LayeredUpdates()
+        self.woman = pygame.sprite.LayeredUpdates()
 
 
 
@@ -107,8 +125,12 @@ class Game:
         self.mainDoor = pygame.sprite.LayeredUpdates()
         self.cat = pygame.sprite.LayeredUpdates()
         self.key = pygame.sprite.LayeredUpdates()
+        self.cornerBlock = pygame.sprite.LayeredUpdates()
+        self.woman = pygame.sprite.LayeredUpdates()
+        
 
         self.createTilemap2()
+    
 
     def events(self):
         #game loop events
@@ -131,11 +153,14 @@ class Game:
     def update(self):
         #game loop updates
         self.all_sprites.update()
+        self.cut_scene_manager.update()
+        
     
     def draw(self):
         self.screen.fill(black)
         self.all_sprites.draw(self.screen)
         self.clock.tick(fps)
+        self.cut_scene_manager.draw()
         pygame.display.update()
         
                 
@@ -148,20 +173,10 @@ class Game:
             self.events()
             self.update()
             self.draw()
+           
             
 
-            if Cat.is_clicked == True:
-                self.cat = Cat.message1(self)
-            if mainDoor.is_clicked == True:
-                self.state = 'main2'
-                
-            #     for event in pygame.event.get():
-            #         if event.type == pygame.MOUSEBUTTONDOWN:
-                        
-                
-            #     #self.mdoor = mainDoor.fade(self)
 
-            #             self.state = 'main2'
             pygame.display.update()
         
                
@@ -173,6 +188,7 @@ class Game:
         pass
     
     def main2(self):
+
         pygame.display.update()
 
         self.newGame2()
@@ -191,6 +207,7 @@ class Game:
     
     def startScreen(self):
         intro = True
+        
 
         #title = self.font.render('ParaNOTnormal Investigating', True, white)
         #title_rect = title.get_rect(x=10,y=10)

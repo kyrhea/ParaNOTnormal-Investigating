@@ -3,6 +3,7 @@ from config import *
 import math
 import random
 from pygame.locals import *
+from cutscene import *
 
 
 class Spritesheet:
@@ -34,7 +35,7 @@ class Player(pygame.sprite.Sprite):
         self.facing = 'down'
         self.animation_loop = 1
 
-        self.image = pygame.image.load('./img/boy01.png')
+        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize)) #sprite size/image
 
         self.rect = self.image.get_rect() #hitbox the same size as sprite image
@@ -82,7 +83,7 @@ class Player(pygame.sprite.Sprite):
         
         if self.facing == 'right':
             if self.x_change == 0:
-                self.game.character_spritesheet.get_sprite(0, 64, self.width, (self.height - 4))
+                self.game.character_spritesheet.get_sprite(64, 0, self.width, (self.height - 4))
             else:
                 self.image = right_animations[math.floor(self.animation_loop)]
                 self.animation_loop += 0.12
@@ -107,10 +108,17 @@ class Player(pygame.sprite.Sprite):
         self.collideCat('x')
         self.collideMainDoor('x')
         self.collideDoor('x')
+        self.collideCorner('x')
+        self.collideWoman('x')
+        self.collideEnemy('x')
         self.rect.y += self.y_change
         self.collide('y')
         self.collideMainDoor('y')
         self.collideCat('y')
+        
+        self.collideCorner('y')
+        self.collideWoman('y')
+        self.collideEnemy('y')
         self.collideDoor('y')
 
 
@@ -171,6 +179,30 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = hits[0].rect.top - self.rect.height
                 if self.y_change < 0:
                     self.rect.y = hits[0].rect.bottom
+    def collideCorner(self, direction):
+        if direction == "x":
+            hits = pygame.sprite.spritecollide(self, self.game.cornerBlock , False)
+            
+            if hits:
+                #right
+                if self.x_change > 0:
+                    self.rect.x = hits[0].rect.left - self.rect.width
+                if self.x_change < 0: #left
+                    #hits[0] = wall colliding with
+                    self.rect.x = hits[0].rect.right
+       
+        
+                    
+        if direction == "y":
+            hits = pygame.sprite.spritecollide(self, self.game.cornerBlock, False)
+           
+
+            if hits:
+                #down
+                if self.y_change > 0:
+                    self.rect.y = hits[0].rect.top - self.rect.height
+                if self.y_change < 0:
+                    self.rect.y = hits[0].rect.bottom
 
     def collideCat(self, direction):
         if direction == "x":
@@ -188,6 +220,55 @@ class Player(pygame.sprite.Sprite):
                     
         if direction == "y":
             hits = pygame.sprite.spritecollide(self, self.game.cat, False)
+           
+
+            if hits:
+                #down
+                if self.y_change > 0:
+                    self.rect.y = hits[0].rect.top - self.rect.height
+                if self.y_change < 0:
+                    self.rect.y = hits[0].rect.bottom
+    def collideWoman(self, direction):
+        if direction == "x":
+            hits = pygame.sprite.spritecollide(self, self.game.woman , False)
+            
+            if hits:
+                #right
+                if self.x_change > 0:
+                    self.rect.x = hits[0].rect.left - self.rect.width
+                if self.x_change < 0: #left
+                    #hits[0] = wall colliding with
+                    self.rect.x = hits[0].rect.right
+       
+        
+                    
+        if direction == "y":
+            hits = pygame.sprite.spritecollide(self, self.game.woman, False)
+           
+
+            if hits:
+                #down
+                if self.y_change > 0:
+                    self.rect.y = hits[0].rect.top - self.rect.height
+                if self.y_change < 0:
+                    self.rect.y = hits[0].rect.bottom
+
+    def collideEnemy(self, direction):
+        if direction == "x":
+            hits = pygame.sprite.spritecollide(self, self.game.ghost, False)
+            
+            if hits:
+                #right
+                if self.x_change > 0:
+                    self.rect.x = hits[0].rect.left - self.rect.width
+                if self.x_change < 0: #left
+                    #hits[0] = wall colliding with
+                    self.rect.x = hits[0].rect.right
+       
+        
+                    
+        if direction == "y":
+            hits = pygame.sprite.spritecollide(self, self.game.ghost, False)
            
 
             if hits:
@@ -224,6 +305,7 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = hits[0].rect.bottom
 
     def collideDoor(self, direction):
+
         if direction == "x":
             hits = pygame.sprite.spritecollide(self, self.game.door , False)
             
@@ -234,6 +316,8 @@ class Player(pygame.sprite.Sprite):
                 if self.x_change < 0: #left
                     #hits[0] = wall colliding with
                     self.rect.x = hits[0].rect.right
+       
+
        
         
                     
@@ -247,6 +331,10 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = hits[0].rect.top - self.rect.height
                 if self.y_change < 0:
                     self.rect.y = hits[0].rect.bottom
+      
+
+       
+
 
 
 
@@ -272,10 +360,11 @@ class Player(pygame.sprite.Sprite):
 #NOT FINISHED
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
+
         self.game = game
-        self.layer = enemy_layer
-        self.groups = self.game.all_sprites, self.game.ghosts
-        pygame.sprite.Sprite._init_(self, self.groups)
+        self._layer = player_layer
+        self.groups = self.game.all_sprites, self.game.ghost
+        pygame.sprite.Sprite.__init__(self, self.groups)
 
         self.x = x * tilesize
         self.y = y * tilesize
@@ -288,6 +377,8 @@ class Enemy(pygame.sprite.Sprite):
         #self.image = self.game.enemy_spritesheet.get_sprite(3, 2, self.width, self.height)
 
         #self.image.set_colorkey(black)
+        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
+        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -317,11 +408,27 @@ class Block(pygame.sprite.Sprite):
         self.width = tilesize
         self.height = tilesize
 
-        #self.image = pygame.Surface([self.width, self.height])
-        #self.image.fill(blue)
+        self.image = self.game.tile_spritesheet.get_sprite(64, 0, self.width, self.height)
 
-        self.image = self.game.tile_spritesheet.get_sprite(0, 0, self.width, self.height)
-        #self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+class cornerBlock(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = block_layer
+        self.groups = self.game.all_sprites, self.game.cornerBlock
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height = tilesize
+
+        self.image = self.game.tile_spritesheet.get_sprite(128, 0, self.width, self.height)
+
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -334,7 +441,7 @@ class Block(pygame.sprite.Sprite):
 
 class Button:
     def __init__(self, x, y, width, height, fg, bg, content, fontsize):
-        self.font = pygame.font.Font('.\img\pixel_font.ttf', fontsize)
+        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', fontsize)
         self.content = content
 
         self.x = x
@@ -369,9 +476,11 @@ class mainDoor(pygame.sprite.Sprite):
         self.game = game
         self._layer = player_layer
         self.groups = self.game.all_sprites, self.game.mainDoor
-        self.screen = pygame.display.set_mode((win_width, win_height), pygame.RESIZABLE)
+        #self.screen = pygame.display.set_mode((win_width, win_height), pygame.RESIZABLE)
 
         #self.win = pygame.display.set_mode((win_width,win_height))
+        self.screen = pygame.display.set_mode((win_width, win_height), pygame.RESIZABLE)
+
         self.clicked = False
         pygame.sprite.Sprite.__init__(self, self.groups)
 
@@ -382,6 +491,7 @@ class mainDoor(pygame.sprite.Sprite):
 
     
         self.image = self.game.tile_spritesheet.get_sprite(128, 64, self.width, (self.height*2))
+        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
@@ -396,10 +506,10 @@ class mainDoor(pygame.sprite.Sprite):
                
                 self.clicked = True
                 
-                door_noise = pygame.mixer.Sound('.\img\door_sound.wav')
+                door_noise = pygame.mixer.Sound(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\door_sound.wav')
                 pygame.mixer.Sound.play(door_noise)
-
-                self.fade(1000, 800)
+                
+                self.fade(2000, 1000)
                 
 
             if not pygame.mouse.get_pressed()[0]:
@@ -479,33 +589,48 @@ class Door(pygame.sprite.Sprite):
         self.width = tilesize
         self.height = tilesize
 
-        self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(green)
+        self.image = self.game.tile_spritesheet.get_sprite(128, 64, self.width, (self.height*2))
+        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
         self.clicked = False
-    
-
-
-    def locked(self):
-        if self.keys != 0:
-            self.unlock()
-    
-    def unlock(self):
-        self.kill()
-    
+        self.open = False
+       
     def is_clicked(self):
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] and not self.clicked:
-               
+            if pygame.mouse.get_pressed()[0] and not self.clicked: 
                 self.clicked = True
                 self.locked()
             if not pygame.mouse.get_pressed()[0]:
                 self.clicked = False
         return self.clicked
+    
+    def locked(self):
+        #Player.collideDoor(self, any)
+        print('made it')
+        #k.inventory(self)
+        if self.game.keys != 0:
+            self.unlock()
+        
+
+            
+    
+    def unlock(self):
+        
+        pygame.sprite.spritecollide(self.game.player, self.game.door, True)
+
+        self.kill()
+
+        #self.game.keys -= 1
+        self.open = True
+
+
+    def update(self):
+        self.is_clicked()
+        
 
 
 
@@ -526,10 +651,9 @@ class Cat(pygame.sprite.Sprite):
         self.width = tilesize
         self.height =  tilesize
 
-        self.image = self.game.cute_spritesheet.get_sprite(0,0, self.width, self.height)
-        self.animation_loop = 1
-        #self.image = pygame.image.load('./img/boy01.png')
-        #self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+    
+        self.image = pygame.image.load('./img/boy01.png')
+        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
         self.rect = self.image.get_rect()
@@ -576,7 +700,7 @@ class Cat(pygame.sprite.Sprite):
         #pygame.draw.rect(self.screen, 'dark gray', [0, 300, 800,200])
      
         
-        self.font = pygame.font.Font('.\img\pixel_font.ttf', 24)
+        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', 24)
         self.snip = self.font.render('', True, 'white')
         self.counter = 0
         self.speed = 3
@@ -589,7 +713,7 @@ class Cat(pygame.sprite.Sprite):
 
         m = True
         while m:
-            pygame.draw.rect(self.screen, 'dark gray', [0, 300, 800,200])
+            pygame.draw.rect(self.screen, 'dark gray', [0, 550, 1500,200])
 
 
             
@@ -605,7 +729,7 @@ class Cat(pygame.sprite.Sprite):
 
                 self.done = True
                 
-            keys = pygame.key.get_pressed()
+           
            
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
@@ -622,14 +746,14 @@ class Cat(pygame.sprite.Sprite):
                     
             snip = self.font.render(self.message[0:self.counter//self.speed], True, 'white')
                 #blit the snip
-            self.screen.blit(snip, (10, 310))
+            self.screen.blit(snip, (10, 560))
                     
             pygame.display.flip()
 
 
             
 
-class keys(pygame.sprite.Sprite):
+class k(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         self.game = game
         self._layer = player_layer
@@ -641,7 +765,8 @@ class keys(pygame.sprite.Sprite):
         self.y = y * tilesize
         self.width = tilesize
         self.height =  tilesize
-        self.keys = 0
+        self.game.keys = 0
+        self.haveKey = False
 
     
         self.image = pygame.image.load('./img/boy01.png')
@@ -657,18 +782,19 @@ class keys(pygame.sprite.Sprite):
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] and not self.clicked:
-               
                 self.clicked = True
                 self.inventory()
                 self.kill()
             if not pygame.mouse.get_pressed()[0]:
                 self.clicked = False
         return self.clicked
-        #self.screen.blit((self.image,(self.rect.x, self.rect.y) ))
+    
     def inventory(self):
+        print('here')
+        self.game.keys += 1
+        self.haveKey = True
+        #Door.unlock(self)
         
-        self.keys += 1
-        print(self.keys)
         
         
     def update(self):
@@ -678,6 +804,112 @@ class keys(pygame.sprite.Sprite):
            
 
                         
+
+class woman(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.clock = pygame.time.Clock()
+        self.game = game
+        self._layer = player_layer
+        self.groups = self.game.all_sprites, self.game.woman
+        self.screen = pygame.display.set_mode((win_width, win_height), pygame.RESIZABLE)
+        #self.win = pygame.display.set_mode((win_width,win_height))
+        self.clicked = False
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height =  tilesize
+
+    
+        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
+        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+        #self.image.fill(white)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+        
+        
+    def is_clicked(self):
+        pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] and not self.clicked:
+               
+                self.clicked = True
+                #self.game.cut_scene_manager()
+                self.game.cut_scene_manager.start_cut_scene(CutSceneOne(self))
+                if self.game.cut_scene_manager.cut_scene is None:
+                    self.message1()
+                
+            if not pygame.mouse.get_pressed()[0]:
+                self.clicked = False
+        return self.clicked
+        #self.screen.blit((self.image,(self.rect.x, self.rect.y) ))
+        
+        
+    def update(self):
+        self.is_clicked()
+       
+        
+
+        #pygame.display.update()
+
+        
+
+
+    def message1(self):
+        #pygame.draw.rect(self.screen, 'dark gray', [0, 300, 800,200])
+     
+        
+        self.font = pygame.font.Font('freesansbold.ttf', 24)
+        self.snip = self.font.render('', True, 'white')
+        self.counter = 0
+        self.speed = 3
+        self.active_message = 0
+        self.done = False
+        self.messages = ['Please help!']
+        self.message= self.messages[self.active_message]
+
+
+        m = True
+        while m:
+            pygame.draw.rect(self.screen, 'dark gray', [0, 550, 1500,200])
+
+
+            
+            self.clock.tick(fps)
+                    
+                    
+          
+
+            if self.counter < self.speed * len(self.message):
+                self.counter +=1
+    
+            elif self.counter >= self.speed*len(self.message):
+
+                self.done = True
+                
+           
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN and self.done and self.active_message < len(self.messages)-1:
+                            
+                            self.active_message += 1
+                            self.done = False
+                            self.message = self.messages[self.active_message]
+                            self.counter = 0
+                    else:
+                        m = False
+                          
+
+                    
+            snip = self.font.render(self.message[0:self.counter//self.speed], True, 'white')
+                #blit the snip
+            self.screen.blit(snip, (10, 560))
+                    
+            pygame.display.flip()
+
 
 
         
