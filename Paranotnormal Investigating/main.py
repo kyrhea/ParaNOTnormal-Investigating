@@ -67,8 +67,8 @@ class Game:
                     Cat(self,j,i)
                 if column == 'K':
                     k(self, j, i)
-                # if column == 'E':
-                #     Enemy(self, j, i)
+                if column == 'E':
+                    Enemy(self, j, i)
             
     
 

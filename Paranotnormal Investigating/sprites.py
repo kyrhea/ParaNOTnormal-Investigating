@@ -360,10 +360,11 @@ class Player(pygame.sprite.Sprite):
 #NOT FINISHED
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
+
         self.game = game
-        self.layer = enemy_layer
-        self.groups = self.game.all_sprites, self.game.ghosts
-        pygame.sprite.Sprite._init_(self, self.groups)
+        self._layer = player_layer
+        self.groups = self.game.all_sprites, self.game.ghost
+        pygame.sprite.Sprite.__init__(self, self.groups)
 
         self.x = x * tilesize
         self.y = y * tilesize
@@ -490,6 +491,7 @@ class mainDoor(pygame.sprite.Sprite):
 
     
         self.image = self.game.tile_spritesheet.get_sprite(128, 64, self.width, (self.height*2))
+        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
@@ -587,7 +589,7 @@ class Door(pygame.sprite.Sprite):
         self.width = tilesize
         self.height = tilesize
 
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
+        self.image = self.game.tile_spritesheet.get_sprite(128, 64, self.width, (self.height*2))
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
 
         self.rect = self.image.get_rect()
