@@ -35,7 +35,7 @@ class Player(pygame.sprite.Sprite):
         self.facing = 'down'
         self.animation_loop = 1
 
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
+        self.image = pygame.image.load('./img/boy01.png')
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize)) #sprite size/image
 
         self.rect = self.image.get_rect() #hitbox the same size as sprite image
@@ -377,16 +377,29 @@ class Enemy(pygame.sprite.Sprite):
         #self.image = self.game.enemy_spritesheet.get_sprite(3, 2, self.width, self.height)
 
         #self.image.set_colorkey(black)
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
-        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+        self.image = self.game.cute_spritesheet.get_sprite(0, 0, self.width, (self.height-10))
+        self.animation_loop = 1
+        #self.image.fill(white)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+
+    def animate(self):
+        cute_animations = [self.game.cute_spritesheet.get_sprite(0, 0, self.width, (self.height-10)),
+        self.game.cute_spritesheet.get_sprite(64, 0, self.width, (self.height-10)),
+        self.game.cute_spritesheet.get_sprite(0, 64, self.width, (self.height-10)),
+        self.game.cute_spritesheet.get_sprite(64, 64, self.width, (self.height-10)),]
+
+        self.image = cute_animations[math.floor(self.animation_loop)]
+        self.animation_loop += 0.05
+        if self.animation_loop >=4:
+            self.animation_loop = 1
         
     def update(self):
         self.rect.x += self.x_change
         self.rect.y += self.y_change
+        self.animate()
 
         self.x_change = 0
         self.y_change = 0
@@ -408,7 +421,7 @@ class Block(pygame.sprite.Sprite):
         self.width = tilesize
         self.height = tilesize
 
-        self.image = self.game.tile_spritesheet.get_sprite(64, 0, self.width, self.height)
+        self.image = self.game.tile_spritesheet.get_sprite(0, 0, self.width, self.height)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -434,6 +447,23 @@ class cornerBlock(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
 
+class Ground(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = ground_layer
+        self.groups = self.game.all_sprites
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x * tilesize
+        self.y = y * tilesize
+        self.width = tilesize
+        self.height = tilesize
+
+        self.image = self.game.tile_spritesheet.get_sprite(192, 64, self.width, self.height)
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
         
 
 
@@ -441,7 +471,7 @@ class cornerBlock(pygame.sprite.Sprite):
 
 class Button:
     def __init__(self, x, y, width, height, fg, bg, content, fontsize):
-        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', fontsize)
+        self.font = pygame.font.Font('./img/pixel_font.ttf', fontsize)
         self.content = content
 
         self.x = x
@@ -506,7 +536,7 @@ class mainDoor(pygame.sprite.Sprite):
                
                 self.clicked = True
                 
-                door_noise = pygame.mixer.Sound(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\door_sound.wav')
+                door_noise = pygame.mixer.Sound('./img/door_sound.wav')
                 pygame.mixer.Sound.play(door_noise)
                 
                 self.fade(2000, 1000)
@@ -614,6 +644,8 @@ class Door(pygame.sprite.Sprite):
         #k.inventory(self)
         if self.game.keys != 0:
             self.unlock()
+            door_noise = pygame.mixer.Sound('./img/door_sound.wav')
+            pygame.mixer.Sound.play(door_noise)
         
 
             
@@ -652,8 +684,8 @@ class Cat(pygame.sprite.Sprite):
         self.height =  tilesize
 
     
-        self.image = pygame.image.load('./img/boy01.png')
-        self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
+        self.image = self.game.cute_spritesheet.get_sprite(0, 0, self.width, self.height)
+        self.animation_loop = 0
         #self.image.fill(white)
 
         self.rect = self.image.get_rect()
@@ -661,15 +693,13 @@ class Cat(pygame.sprite.Sprite):
         self.rect.y = self.y
 
     def animate(self):
-        cute_animations = [self.game.cute_spritesheet.get_sprite(0, 0, self.width, (self.height-10)),
-        self.game.cute_spritesheet.get_sprite(64, 0, self.width, (self.height-10)),
-        self.game.cute_spritesheet.get_sprite(0, 64, self.width, (self.height-10)),
-        self.game.cute_spritesheet.get_sprite(64, 64, self.width, (self.height-10)),]
+        cat_animations = [self.game.cat_spritesheet.get_sprite(0, 0, self.width, self.height),
+        self.game.cat_spritesheet.get_sprite(64, 0, self.width, self.height)]
 
-        self.image = cute_animations[math.floor(self.animation_loop)]
-        self.animation_loop += 0.05
-        if self.animation_loop >=4:
-            self.animation_loop = 1
+        self.image = cat_animations[math.floor(self.animation_loop)]
+        self.animation_loop += 0.07
+        if self.animation_loop >=2:
+            self.animation_loop = 0
         
         
     def is_clicked(self):
@@ -700,7 +730,7 @@ class Cat(pygame.sprite.Sprite):
         #pygame.draw.rect(self.screen, 'dark gray', [0, 300, 800,200])
      
         
-        self.font = pygame.font.Font(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\pixel_font.ttf', 24)
+        self.font = pygame.font.Font('./img/pixel_font.ttf', 24)
         self.snip = self.font.render('', True, 'white')
         self.counter = 0
         self.speed = 3
@@ -822,7 +852,7 @@ class woman(pygame.sprite.Sprite):
         self.height =  tilesize
 
     
-        self.image = pygame.image.load(r'C:\Users\saira\paragame\ParaNOTnormal-Investigating\Paranotnormal Investigating\img\boy01.png')
+        self.image = pygame.image.load('./img/boy01.png')
         self.image = pygame.transform.scale(self.image, (tilesize, tilesize))
         #self.image.fill(white)
 
